@@ -24,4 +24,5 @@
 /src/node_modules/
 /web/media
 /stats/
+data/postgres/data/
 {{ project_name }}/settings/local.py
