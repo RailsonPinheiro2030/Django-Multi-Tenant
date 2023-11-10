@@ -1,3 +1,5 @@
+#COMANDOS DO django_tenants
+
 [auth]
     changepassword
     createsuperuser
