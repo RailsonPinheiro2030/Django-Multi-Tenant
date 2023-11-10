@@ -1,0 +1,48 @@
+[auth]
+    changepassword
+    createsuperuser
+
+[contenttypes]
+    remove_stale_contenttypes
+
+[django]
+    check
+    compilemessages
+    createcachetable
+    dbshell
+    diffsettings
+    dumpdata
+    flush
+    inspectdb
+    loaddata
+    makemessages
+    makemigrations
+    optimizemigration
+    runserver
+    sendtestemail
+    shell
+    showmigrations
+    sqlflush
+    sqlmigrate
+    sqlsequencereset
+    squashmigrations
+    startapp
+    startproject
+    test
+    testserver
+
+[django_tenants]
+    all_tenants_command
+    clone_tenant
+    collectstatic_schemas
+    create_missing_schemas
+    create_tenant
+    create_tenant_superuser
+    delete_tenant
+    migrate
+    migrate_schemas
+    rename_schema
+    tenant_command
+
+[sessions]
+    clearsessions

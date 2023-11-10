@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  djangotenants:
+    container_name: djangotenants
+    build:
+      context: .
+    ports:
+      - 8000:8000
+    volumes:
+      - ./djangoTenants:/djangoTenants
+    env_file:
+      - .env
+    depends_on:
+      - psql
+  psql:
+    container_name: psql
+    image: postgres:13-alpine
+    volumes:
+      - ./data/postgres/data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  
+
