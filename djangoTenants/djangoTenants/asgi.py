@@ -1,5 +1,5 @@
 """
-ASGI config for djangoTenats project.
+ASGI config for djangoTenants project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
