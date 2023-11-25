@@ -18,6 +18,7 @@
 .sass-cache/
 .vagrant/
 /dist/
+/myenv/
 /docs/_build/
 /env/
 /logs/

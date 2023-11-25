@@ -11,5 +11,4 @@ done
 
 echo "✅ Postgres Database Started Successfully ($POSTGRES_HOST:$POSTGRES_PORT)"
 
-
-python manage.py runserver 0.0.0.0:8000
+python manage.py makemigrations client --noinput
