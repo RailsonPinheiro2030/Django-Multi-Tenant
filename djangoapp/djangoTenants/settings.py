@@ -32,7 +32,6 @@ SHARED_APPS = (
 
 TENANT_APPS = (
     'django.contrib.auth',
-    'client',
 )
 
 
@@ -68,10 +67,14 @@ DATABASE_ROUTERS = (
 
 
 
+
+CELERY_BROKER_URL = f"amqp://{config('RABBITMQ_USER')}:{config('RABBITMQ_PASSWORD')}@rabbitmq:5672/"
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,8 +97,8 @@ DATABASES = {
         'NAME': config('POSTGRES_DB'),
         'USER': config('POSTGRES_USER'),
         'PASSWORD': config('POSTGRES_PASSWORD'),
-        'HOST': config('POSTGRES_HOST'),
-        'PORT': config('POSTGRES_PORT')
+        'HOST': 'psql',
+        'PORT': '5432'
     }
 }
 

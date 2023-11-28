@@ -22,17 +22,20 @@ RUN python -m venv /venv && \
     mkdir -p /djangoapp/templates && \
     mkdir -p /djangoapp/static && \
     chown -R duser:duser /venv && \
-    chown -R duser:duser /djangoapp/templates && \
-    chown -R duser:duser /djangoapp/static && \
-    chmod -R 755 /djangoapp/templates && \
-    chmod -R 755 /djangoapp/static && \
+    chown -R duser:duser /djangoapp && \
+    chmod -R 755 /djangoapp && \
     chmod -R +x /scripts
 
 RUN apk del build-deps
+RUN apk add --no-cache postgresql-client
+RUN apk add --no-cache openssl
+ENV DOCKERIZE_VERSION v0.6.1
+RUN wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz \
+    && rm dockerize-alpine-linux-amd64-$DOCKERIZE_VERSION.tar.gz
 
 ENV PATH="/scripts:/venv/bin:$PATH"
 
 USER duser
 
-CMD ["commands.sh"]
 

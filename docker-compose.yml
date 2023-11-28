@@ -1,18 +1,7 @@
 version: '3.9'
 
 services:
-  djangotenants:
-    container_name: djangotenants
-    build:
-      context: .
-    ports:
-      - 8000:8000
-    volumes:
-      - ./djangoapp:/djangoTenants
-    env_file:
-      - .env
-    depends_on:
-      - psql
+
   psql:
     container_name: psql
     image: postgres:13-alpine
@@ -23,5 +12,56 @@ services:
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}  
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3.12.9-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    env_file:
+      - .env  
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD} 
+
+  djangotenants:
+    container_name: djangotenants
+    build:
+      context: .
+    command: "services.sh"
+    ports:
+      - 8000:8000
+    volumes:
+      - ./djangoapp:/djangoapp
+      - ./scripts:/scripts
+    env_file:
+      - .env
+    depends_on:
+      - psql
+      - rabbitmq
+
+
+
+  
+
+
+  
+
+  celeryworker:
+    container_name: celeryworker
+    build:
+      context: .
+    command: ["dockerize", "-wait", "tcp://rabbitmq:5672", "-timeout", "2m", "celery", "-A", "djangoTenants.celery_app.celery", "worker", "--loglevel=info"]
+    volumes:
+      - ./djangoapp:/djangoapp
+    env_file:
+      - .env
+    environment:
+    - CELERY_BROKER_URL=amqp://${RABBITMQ_USER}:${RABBITMQ_PASSWORD}@rabbitmq:5672/  
+    depends_on:
+      - djangotenants
+      - rabbitmq        
+
 
